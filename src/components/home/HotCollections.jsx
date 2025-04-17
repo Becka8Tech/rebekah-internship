@@ -4,28 +4,39 @@ import axios from "axios";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
-
-const SkeletonLoader = () => (
-  <div className="skeleton-loader">
-    <div className="skeleton-item"></div>
-    <div className="skeleton-item"></div>
-    <div className="skeleton-item"></div>
-  </div>
-);
+import Skeleton from "../UI/Skeleton.jsx";
 
 const HotCollections = () => {
   const { nftId } = useParams();
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
+
+  const options = {
+    loop: true,
+    margin: 10,
+    nav: true,
+    navText: [
+      "<i class='fa fa-angle-left'></i>",
+      "<i class='fa fa-angle-right'></i>",
+    ],
+    dots: false,
+    responsive: {
+      0: { items: 1 },
+      768: { items: 2 },
+      1024: { items: 3 },
+      1200: { items: 4 },
+    },
+  };
 
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       try {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         const response = await axios.get(
           "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
         );
         const resultData = response.data;
-        console.log(resultData);
 
         if (Array.isArray(resultData) && resultData.length > 0) {
           setData(resultData);
@@ -35,8 +46,7 @@ const HotCollections = () => {
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
-        setLoading(false); // Set loading to false after data fetch
-        console.log('Loading finished');
+        setLoading(false);
       }
     };
     fetchData();
@@ -52,23 +62,62 @@ const HotCollections = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          <OwlCarousel
-            className="owl-theme"
-            loop
-            margin={10}
-            nav
-            responsive={{
-              0: { items: 1 },
-              768: { items: 2 },
-              1024: { items: 3 },
-              1200: { items: 4 },
-            }}
-          >
-            {loading ? ( // Show SkeletonLoader while loading
-              <SkeletonLoader />
-            ) : data.length > 0 ? (
-              data.map((item, index) => (
-                <div className="px-1" key={index}>
+        </div>
+        <div style={{ marginTop: "20px" }}>
+          {loading ? (
+            <div className="row">
+              {Array(4)
+                .fill(0)
+                .map((_, index) => (
+                  <div
+                    className="px-1"
+                    key={index}
+                  >
+                    <div className="nft_coll">
+                      <div className="nft_wrap">
+                        <Skeleton
+                          width="100%"
+                          height="260px"
+                          borderRadius="10px"
+                        />
+                      </div>
+
+                      <div
+                        className="nft_coll_pp"
+                        style={{ marginTop: "10px" }}
+                      >
+                        <Skeleton
+                          width="50px"
+                          height="50px"
+                          borderRadius="50%"
+                        />
+                      </div>
+                      <div
+                        className="nft_coll_info"
+                        style={{ marginTop: "10px", textAlign: "center" }}
+                      >
+                        <Skeleton
+                          width="70%"
+                          height="24px"
+                          borderRadius="5px"
+                          style={{ margin: "0 auto 8px auto" }}
+                        />
+
+                        <Skeleton
+                          width="40%"
+                          height="18px"
+                          borderRadius="5px"
+                          style={{ margin: "0 auto" }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          ) : data.length > 0 ? (
+            <OwlCarousel className="owl-theme" {...options}>
+              {data.map((item, index) => (
+                <div className="item" key={index}>
                   <div className="nft_coll">
                     <div className="nft_wrap">
                       <Link to={`/item-details/${item.nftId}`}>
@@ -99,14 +148,15 @@ const HotCollections = () => {
                     </div>
                   </div>
                 </div>
-              ))
-            ) : (
-              <p>No collections available.</p>
-            )}
-          </OwlCarousel>
+              ))}
+            </OwlCarousel>
+          ) : (
+            <p className="text-center">No collections available.</p>
+          )}
         </div>
       </div>
     </section>
   );
 };
+
 export default HotCollections;
