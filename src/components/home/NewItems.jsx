@@ -10,6 +10,7 @@ const NewItems = () => {
   const { nftId } = useParams();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [timeLeftList, setTimeLeftList] = useState([]);
 
   const options = {
     loop: true,
@@ -26,6 +27,9 @@ const NewItems = () => {
       1024: { items: 3 },
       1200: { items: 4 },
     },
+    autoplay: true,
+    autoplayTimeout: 3000,
+    autoplayHoverPause: true
   };
 
   const convertMilliseconds = (milliseconds) => {
@@ -38,19 +42,17 @@ const NewItems = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
     const fetchData = async () => {
+      setLoading(true);
       try {
         await new Promise((resolve) => setTimeout(resolve, 2000));
-        const response = await axios.get(
-          `https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems`
-        );
+        const response = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems`);
         const resultData = response.data;
-
-        console.log(resultData);
 
         if (Array.isArray(resultData) && resultData.length > 0) {
           setData(resultData);
+          const initialTimes = resultData.map(item => item.expiryDate ? item.expiryDate - Date.now() : null);
+          setTimeLeftList(initialTimes);
         } else {
           console.error("Error: No valid data returned.");
         }
@@ -61,7 +63,17 @@ const NewItems = () => {
       }
     };
     fetchData();
-  }, [nftId]); // This should remain if you need it to refetch on nftId change
+  }, [nftId]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeftList(prevTimeLeft => prevTimeLeft.map((timeLeft, index) => {
+        return data[index]?.expiryDate ? Math.max(timeLeft - 1000, 0) : null;
+      }));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [data]);
 
   return (
     <section id="section-items" className="no-bottom">
@@ -73,6 +85,7 @@ const NewItems = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
+
           {loading ? (
             <div className="row">
               {Array(4).fill(0).map((_, index) => (
@@ -95,28 +108,30 @@ const NewItems = () => {
           ) : data.length > 0 ? (
             <OwlCarousel className="owl-theme" {...options}>
               {data.map((item, index) => {
-                const timeDifference = item.expiryDate - Date.now();
-                const timeLeft = timeDifference >= 0 ? convertMilliseconds(timeDifference) : "Expired";
+                const timeLeft = timeLeftList[index];
+                const displayTimeLeft = timeLeft && timeLeft > 0 ? convertMilliseconds(timeLeft) : "Expired";
 
                 return (
-                  <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
+                  <div className="px-1" key={index}>
                     <div className="nft__item">
                       <div className="author_list_pp">
-                        <Link to={`/author/${item.authorId}`} data-bs-toggle="tooltip" data-bs-placement="top" title="Creator: Monica Lucas">
+                        <Link to={`/author/${item.authorId}`} data-bs-toggle="tooltip" data-bs-placement="top" title={`Creator: ${item.authorName}`}>
                           <img className="lazy" src={item.authorImage} alt="" />
                           <i className="fa fa-check"></i>
                         </Link>
                       </div>
-                      <div className="de_countdown">{timeLeft}</div>
+                      {item.expiryDate && timeLeft != null && (
+                        <div className="de_countdown">{displayTimeLeft}</div>
+                      )}
                       <div className="nft__item_wrap">
                         <div className="nft__item_extra">
                           <div className="nft__item_buttons">
                             <button>Buy Now</button>
                             <div className="nft__item_share">
                               <h4>Share</h4>
-                              <a href="" target="_blank" rel="noreferrer"><i className="fa fa-facebook fa-lg"></i></a>
-                              <a href="" target="_blank" rel="noreferrer"><i className="fa fa-twitter fa-lg"></i></a>
-                              <a href=""><i className="fa fa-envelope fa-lg"></i></a>
+                              <a href="#" target="_blank" rel="noreferrer"><i className="fa fa-facebook fa-lg"></i></a>
+                              <a href="#" target="_blank" rel="noreferrer"><i className="fa fa-twitter fa-lg"></i></a>
+                              <a href="#"><i className="fa fa-envelope fa-lg"></i></a>
                             </div>
                           </div>
                         </div>
