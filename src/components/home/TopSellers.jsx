@@ -72,7 +72,7 @@ const TopSellers = () => {
               ) : (
                 data.map((item) => (
                   <div key={item.authorId}>
-                    {item.id}.
+                    <span>{item.id}.</span>
                     <div className="author_list_pp">
                       <Link to={`/author/${item.authorId}`}>
                         <img
