@@ -81,7 +81,6 @@ const HotCollections = () => {
                           borderRadius="10px"
                         />
                       </div>
-
                       <div
                         className="nft_coll_pp"
                         style={{ marginTop: "10px" }}
@@ -102,7 +101,6 @@ const HotCollections = () => {
                           borderRadius="5px"
                           style={{ margin: "0 auto 8px auto" }}
                         />
-
                         <Skeleton
                           width="40%"
                           height="18px"

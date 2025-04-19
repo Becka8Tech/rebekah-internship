@@ -136,7 +136,7 @@ const NewItems = () => {
       alignItems: 'center',
       justifyContent: 'center',
       cursor: 'pointer',
-      zIndex: 10,
+      zIndex: '10',
     },
     prevButton: {
       left: '10px',
@@ -158,7 +158,7 @@ const NewItems = () => {
           </div>
           {loading ? (
             <div className="row">
-              {Array(4).fill(0).map((_, index) => (
+              {Array(7).fill(0).map((_, index) => (
                 <div className="px-1" key={index}>
                   <div className="nft_coll">
                     <div className="nft_wrap">
