@@ -49,6 +49,10 @@ const ExploreItems = () => {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
+
+    if (hours === 0 && minutes === 0 && seconds === 0) {
+      return "Expired";
+    }
     return `${hours}h ${minutes}m ${seconds}s`;
   };
 
@@ -91,9 +95,12 @@ const ExploreItems = () => {
     return () => clearInterval(interval);
   }, [data]);
 
-  // Updated loadMoreItems function
   const loadMoreItems = () => {
-    setItemsToShow((prevItemsToShow) => prevItemsToShow + 4);
+    if (itemsToShow + 4 >= items.length) {
+      setItemsToShow(items.length);
+    } else {
+      setItemsToShow((prevItemsToShow) => prevItemsToShow + 4);
+    }
   };
 
   return (
@@ -227,16 +234,18 @@ const ExploreItems = () => {
             ) : (
               <div>No items available.</div>
             )}
-            <div className="col-md-12 text-center">
-              <Link
-                to="#"
-                id="loadmore"
-                className="btn-main lead"
-                onClick={loadMoreItems}
-              >
-                Load more
-              </Link>
-            </div>
+            {itemsToShow < items.length && (
+              <div className="col-md-12 text-center">
+                <Link
+                  to="#"
+                  id="loadmore"
+                  className="btn-main lead"
+                  onClick={loadMoreItems}
+                >
+                  Load more
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </section>
