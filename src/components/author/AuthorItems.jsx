@@ -4,7 +4,7 @@ import axios from "axios";
 import Skeleton from "../UI/Skeleton.jsx";
 
 const AuthorItems = () => {
-  const { id } = useParams(); // Use the id from params
+  const { id } = useParams();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
