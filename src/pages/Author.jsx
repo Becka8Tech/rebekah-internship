@@ -1,10 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
+import Skeleton from "../UI/Skeleton.jsx";
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
-import { Link } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
 
 const Author = () => {
+  const { authorId } = useParams();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        const response = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`);
+        const resultData = response.data;
+
+        if (Array.isArray(resultData) && resultData.length > 0) {
+          setData(resultData);
+        } else {
+          console.error("Error: No valid data returned.");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [authorId]);
+
   return (
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">

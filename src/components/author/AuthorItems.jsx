@@ -4,7 +4,7 @@ import axios from "axios";
 import Skeleton from "../UI/Skeleton.jsx";
 
 const AuthorItems = () => {
-  const { id } = useParams();
+  const { authorId } = useParams();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -13,7 +13,7 @@ const AuthorItems = () => {
       setLoading(true);
       try {
         await new Promise((resolve) => setTimeout(resolve, 2000));
-        const response = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${id}`); // Use id instead of authorId
+        const response = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`);
         const resultData = response.data;
 
         if (Array.isArray(resultData) && resultData.length > 0) {
@@ -28,7 +28,7 @@ const AuthorItems = () => {
       }
     };
     fetchData();
-  }, [id]);
+  }, [authorId]);
 
   return (
     <div className="de_tab_content">
@@ -39,15 +39,16 @@ const AuthorItems = () => {
               <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
                 <div className="nft__item">
                   <div className="author_list_pp">
-                    <Link to="">
-                      <Skeleton width="100%" height="100%" borderRadius="10px" />
-                    </Link>
-                  </div>
-                  <div className="nft__item_wrap">
-                    <Skeleton width="100%" height="260px" borderRadius="10px" />
-                    <Skeleton width="50px" height="50px" borderRadius="50%" />
-                    <Skeleton width="70%" height="24px" borderRadius="5px" />
-                    <Skeleton width="40%" height="18px" borderRadius="5px" />
+                    <div className="nft_wrap">
+                      <Skeleton width="100%" height="260px" borderRadius="10px" />
+                    </div>
+                    <div className="nft_coll_pp" style={{ marginTop: "10px" }}>
+                      <Skeleton width="50px" height="50px" borderRadius="50%" />
+                    </div>
+                    <div className="nft_coll_info" style={{ marginTop: "10px", textAlign: "center" }}>
+                      <Skeleton width="70%" height="24px" borderRadius="5px" style={{ margin: "0 auto 8px auto" }} />
+                      <Skeleton width="40%" height="18px" borderRadius="5px" style={{ margin: "0 auto" }} />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -55,19 +56,52 @@ const AuthorItems = () => {
           </div>
         ) : data.length > 0 ? (
           <div className="row">
-            {data.map((nftCollection) => (
-              <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={nftCollection.id}>
-                <Link to="/item-details">
+            {data.map((item, index) => (
+              <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={item.nftCollection.nftId}>
+                <div className="nft__item">
+                  <div className="author_list_pp">
+                    <Link to="">
+                      <img className="lazy" src={item.authorImage} alt="" />
+                      <i className="fa fa-check"></i>
+                    </Link>
+                  </div>
+                  <div className="nft__item_wrap">
+                    <div className="nft__item_extra">
+                      <div className="nft__item_buttons">
+                        <button>Buy Now</button>
+                        <div className="nft__item_share">
+                          <h4>Share</h4>
+                          <a href="" target="_blank" rel="noreferrer">
+                            <i className="fa fa-facebook fa-lg"></i>
+                          </a>
+                          <a href="" target="_blank" rel="noreferrer">
+                            <i className="fa fa-twitter fa-lg"></i>
+                          </a>
+                          <a href="">
+                            <i className="fa fa-envelope fa-lg"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <Link to={`/item-details/${item.nftCollection.nftId}`}>
+                      <img
+                        src={item.nftCollection.nftImage}
+                        className="lazy nft__item_preview"
+                        alt=""
+                      />
+                    </Link>
+                  </div>
                   <div className="nft__item_info">
-                    <img src={nftCollection.nftImage} className="lazy nft__item_preview" alt="" />
-                    <h4>{nftCollection.title}</h4>
-                    <div className="nft__item_price">{nftCollection.price} ETH</div>
+                    <Link to={`/item-details/${item.nftId}`}>
+                      <h4>{item.nftCollection.title}</h4>
+                    </Link>
+                    <div className="nft__item_price">{item.nftCollection.price} ETH</div>
                     <div className="nft__item_like">
                       <i className="fa fa-heart"></i>
-                      <span>{nftCollection.likes}</span>
+                      <span>{item.nftCollection.likes}</span>
                     </div>
                   </div>
-                </Link>
+                </div>
               </div>
             ))}
           </div>
