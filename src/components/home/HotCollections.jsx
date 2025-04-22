@@ -102,7 +102,6 @@ const HotCollections = () => {
                           borderRadius="5px"
                           style={{ margin: "0 auto 8px auto" }}
                         />
-
                         <Skeleton
                           width="40%"
                           height="18px"

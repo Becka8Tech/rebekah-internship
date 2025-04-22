@@ -34,18 +34,9 @@ const AuthorItems = ({ authorInfo }) => {
             {new Array(8).fill(0).map((_, index) => (
               <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
                 <div className="nft__item">
-                  <div className="author_list_pp">
-                    <div className="nft_wrap">
-                      <Skeleton width="100%" height="260px" borderRadius="10px" />
+                   <div className="nft_wrap">
+                      <Skeleton width="100%" height="100%" borderRadius="10px" />
                     </div>
-                    <div className="nft_coll_pp" style={{ marginTop: "10px" }}>
-                      <Skeleton width="50px" height="50px" borderRadius="50%" />
-                    </div>
-                    <div className="nft_coll_info" style={{ marginTop: "10px", textAlign: "center" }}>
-                      <Skeleton width="70%" height="24px" borderRadius="5px" style={{ margin: "0 auto 8px auto" }} />
-                      <Skeleton width="40%" height="18px" borderRadius="5px" style={{ margin: "0 auto" }} />
-                    </div>
-                  </div>
                 </div>
               </div>
             ))}

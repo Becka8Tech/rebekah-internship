@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
+import Skeleton from "../components/UI/Skeleton.jsx";
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
 
@@ -68,8 +69,52 @@ const Author = () => {
             <div className="row">
               <div className="col-md-12">
                 {loading ? (
-                  // Replace genaric Loading state with Skeleton loading state
-                  <p>Loading...</p>
+                  <div className="col-mid-12">
+                    <div
+                      className="profile_avatar"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginLeft: "10px",
+                      }}
+                    >
+                      <Skeleton
+                        width="150px"
+                        height="150px"
+                        borderRadius="100%"
+                      />
+                      <i className="fa fa-check"></i>
+                    </div>
+                    <div
+                      className="profile_name"
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "left",
+                        marginLeft: "10px",
+                      }}
+                    >
+                      <Skeleton
+                        width="60%"
+                        height="24px"
+                        borderRadius="5px"
+                        style={{ marginBottom: "8px" }}
+                      />
+                      <Skeleton
+                        width="40%"
+                        height="18px"
+                        borderRadius="5px"
+                        style={{ marginBottom: "4px" }}
+                      />
+                      <Skeleton width="40%" height="18px" borderRadius="5px" />
+                    </div>
+                    <div
+                      className="de-flex-col"
+                      style={{ display: "flex", justifyContent: "center" }}
+                    >
+                      <Skeleton width="40%" height="18px" borderRadius="5px" />
+                    </div>
+                  </div>
                 ) : error ? (
                   <p>{error}</p>
                 ) : authorInfo.authorName ? (
@@ -87,7 +132,11 @@ const Author = () => {
                             <span id="wallet" className="profile_wallet">
                               {authorInfo.address}
                             </span>
-                            <button id="btn_copy" title="Copy Text" onClick={copyToClipboard}>
+                            <button
+                              id="btn_copy"
+                              title="Copy Text"
+                              onClick={copyToClipboard}
+                            >
                               Copy
                             </button>
                           </h4>
@@ -97,10 +146,13 @@ const Author = () => {
                     <div className="profile_follow de-flex">
                       <div className="de-flex-col">
                         <div className="profile_follower">
-                          {isFollowing ? authorInfo.followers + 1 : authorInfo.followers} Followers
+                          {isFollowing
+                            ? authorInfo.followers + 1
+                            : authorInfo.followers}{" "}
+                          Followers
                         </div>
                         <button className="btn-main" onClick={toggleFollow}>
-                          {isFollowing ? 'Unfollow' : 'Follow'}
+                          {isFollowing ? "Unfollow" : "Follow"}
                         </button>
                       </div>
                     </div>
