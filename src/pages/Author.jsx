@@ -31,9 +31,7 @@ const Author = () => {
       } catch (error) {
         setError("Error fetching data: " + error.message);
       } finally {
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
+        setLoading(false);
       }
     };
     fetchData();
@@ -72,47 +70,62 @@ const Author = () => {
               <div className="col-md-12">
                 {loading ? (
                   <div
-                    className="flex align-items-center"
+                    className="col-md-12"
                     style={{
                       display: "flex",
                       flexDirection: "row",
                       justifyContent: "space-between",
                     }}
                   >
-                    <div
-                      className="profile_avatar"
-                    >
-                      <Skeleton
-                        width="150px"
-                        height="150px"
-                        borderRadius="100%"
-                      />
-                      <i className="fa fa-check"></i>
+                    <div className="d_profile d-flex">
+                      <div
+                        className="profile_avatar"
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "left",
+                          margin: "10px",
+                        }}
+                      >
+                        <Skeleton
+                          width="150px"
+                          height="150px"
+                          borderRadius="100%"
+                        />
+                        <i className="fa fa-check"></i>
+                      </div>
+                      <div className="profile_name">
+                        <h4>
+                          <Skeleton
+                            width="10%"
+                            height="24px"
+                            borderRadius="5px"
+                          />
+                          <span className="username">
+                            <Skeleton
+                              width="40%"
+                              height="18px"
+                              borderRadius="5px"
+                              style={{ marginBottom: "4px" }}
+                            />
+                          </span>
+                          <span className="wallet">
+                            <Skeleton
+                              width="40%"
+                              height="18px"
+                              borderRadius="5px"
+                            />
+                          </span>
+                        </h4>
+                      </div>
+                      <div className="profile_follower">
+                        <Skeleton
+                          width="12%"
+                          height="42px"
+                          borderRadius="5px"
+                        />
+                      </div>
                     </div>
-                    <div
-                      className="flex flex-column gap-2"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "left",
-                        marginLeft: "10px",
-                      }}
-                    >
-                      <Skeleton
-                        width="60%"
-                        height="24px"
-                        borderRadius="5px"
-                        style={{ marginBottom: "8px" }}
-                      />
-                      <Skeleton
-                        width="40%"
-                        height="18px"
-                        borderRadius="5px"
-                        style={{ marginBottom: "4px" }}
-                      />
-                      <Skeleton width="40%" height="18px" borderRadius="5px" />
-                    </div>
-                    <Skeleton width="12%" height="42px" borderRadius="5px" />
                   </div>
                 ) : error ? (
                   <p>{error}</p>
