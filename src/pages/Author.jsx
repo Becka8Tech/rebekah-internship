@@ -31,7 +31,9 @@ const Author = () => {
       } catch (error) {
         setError("Error fetching data: " + error.message);
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
       }
     };
     fetchData();
@@ -69,14 +71,16 @@ const Author = () => {
             <div className="row">
               <div className="col-md-12">
                 {loading ? (
-                  <div className="col-mid-12">
+                  <div
+                    className="flex align-items-center"
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
                     <div
                       className="profile_avatar"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginLeft: "10px",
-                      }}
                     >
                       <Skeleton
                         width="150px"
@@ -86,7 +90,7 @@ const Author = () => {
                       <i className="fa fa-check"></i>
                     </div>
                     <div
-                      className="profile_name"
+                      className="flex flex-column gap-2"
                       style={{
                         display: "flex",
                         flexDirection: "column",
@@ -108,12 +112,7 @@ const Author = () => {
                       />
                       <Skeleton width="40%" height="18px" borderRadius="5px" />
                     </div>
-                    <div
-                      className="de-flex-col"
-                      style={{ display: "flex", justifyContent: "center" }}
-                    >
-                      <Skeleton width="40%" height="18px" borderRadius="5px" />
-                    </div>
+                    <Skeleton width="12%" height="42px" borderRadius="5px" />
                   </div>
                 ) : error ? (
                   <p>{error}</p>
