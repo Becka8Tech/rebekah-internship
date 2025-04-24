@@ -56,7 +56,6 @@ const ItemDetails = () => {
     );
   }
 
-  // Error handling
   if (error) {
     return <div>{error}</div>;
   }
