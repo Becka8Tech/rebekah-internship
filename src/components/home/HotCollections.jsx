@@ -66,13 +66,10 @@ const HotCollections = () => {
         <div style={{ marginTop: "20px" }}>
           {loading ? (
             <div className="row">
-              {Array(4)
+              {Array(1)
                 .fill(0)
                 .map((_, index) => (
-                  <div
-                    className="px-1"
-                    key={index}
-                  >
+                  <div className="px-1" key={index}>
                     <div className="nft_coll">
                       <div className="nft_wrap">
                         <Skeleton
@@ -81,7 +78,6 @@ const HotCollections = () => {
                           borderRadius="10px"
                         />
                       </div>
-
                       <div
                         className="nft_coll_pp"
                         style={{ marginTop: "10px" }}
@@ -102,7 +98,6 @@ const HotCollections = () => {
                           borderRadius="5px"
                           style={{ margin: "0 auto 8px auto" }}
                         />
-
                         <Skeleton
                           width="40%"
                           height="18px"
@@ -131,7 +126,7 @@ const HotCollections = () => {
                       </Link>
                     </div>
                     <div className="nft_coll_pp">
-                      <Link to="/author">
+                      <Link to={`/author/${item.authorId}`}>
                         <img
                           className="lazy pp-coll"
                           src={item.authorImage}
