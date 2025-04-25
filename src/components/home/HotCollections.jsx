@@ -66,13 +66,10 @@ const HotCollections = () => {
         <div style={{ marginTop: "20px" }}>
           {loading ? (
             <div className="row">
-              {Array(4)
+              {Array(1)
                 .fill(0)
                 .map((_, index) => (
-                  <div
-                    className="px-1"
-                    key={index}
-                  >
+                  <div className="px-1" key={index}>
                     <div className="nft_coll">
                       <div className="nft_wrap">
                         <Skeleton
@@ -129,7 +126,7 @@ const HotCollections = () => {
                       </Link>
                     </div>
                     <div className="nft_coll_pp">
-                      <Link to="/author">
+                      <Link to={`/author/${item.authorId}`}>
                         <img
                           className="lazy pp-coll"
                           src={item.authorImage}
