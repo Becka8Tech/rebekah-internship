@@ -22,43 +22,105 @@ const ItemDetails = () => {
         if (response.status !== 200) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
         const resultData = response.data;
-        console.log("API Response:", resultData);
 
         if (Array.isArray(resultData)) {
           setNftDetails(resultData);
-        } else if (resultData && typeof resultData === 'object') {
+        } else if (resultData && typeof resultData === "object") {
           setNftDetails([resultData]);
         } else {
           setError("No data found for this NFT");
         }
       } catch (err) {
         console.error("Error fetching data:", err);
-        setError(`Failed to fetch data: ${err.message}`); // Fixed error message
+        setError(`Failed to fetch data: ${err.message}`);
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-    window.scrollTo(0, 0);
+     window.scrollTo(0, 0);
   }, [nftId]);
 
   if (loading) {
     return (
       <div className="container mt-5">
-        <div className="row">
-          {new Array(1).fill(0).map((_, index) => (
-            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
-              <div className="nft__item">
-                <div className="nft_wrap">
-                  <Skeleton width="100%" height="100%" borderRadius="10px" />
+        {new Array(1).fill(0).map((_, index) => (
+          <div className="row" key={index} style={{ marginTop: "170px" }}>
+            <div className="col-md-6 text-center">
+              <Skeleton width="100%" height="100%" borderRadius="10px" />
+            </div>
+            <div className="col-md-6">
+              <div className="item_info">
+                <h2>
+                  <Skeleton width="65%" height="40px" borderRadius="10px" />
+                </h2>
+                <div className="item_info_counts">
+                  <div className="item_info_views">
+                    <Skeleton width="100%" height="100%" borderRadius="10px" />
+                  </div>
+                  <div className="item_info_like">
+                    <Skeleton width="100%" height="100%" borderRadius="10px" />
+                  </div>
+                </div>
+                <p>
+                  <Skeleton width="100%" height="100px" borderRadius="10px" />
+                </p>
+                <div className="d-flex flex-row">
+                  <div className="mr40">
+                    <h6>Owner</h6>
+                    <div className="item_author">
+                      <div className="author_list_pp">
+                        <Skeleton
+                          width="50px"
+                          height="50px"
+                          borderRadius="50%"
+                        />
+                        <i className="fa fa-check"></i>
+                      </div>
+                      <div className="author_list_info" style={{ width: "40%" }}>
+                        <Skeleton
+                          width="150px"
+                          height="30px"
+                          borderRadius="10px"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className=""></div>
+                </div>
+                <div className="de_tab tab_simple">
+                  <div className="de_tab_content">
+                    <h6>Creator</h6>
+                    <div className="item_author">
+                      <div className="author_list_pp">
+                        <i className="fa fa-check"></i>
+                        <Skeleton
+                          width="50px"
+                          height="50px"
+                          borderRadius="50%"
+                        />
+                      </div>
+                      <div className="author_list_info" style={{ width: "40%" }}>
+                        <Skeleton
+                          width="150px"
+                          height="30px"
+                          borderRadius="10px"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="spacer-40"></div>
+                  <h6>Price</h6>
+                  <div className="nft-item-price">
+                    <Skeleton width="20%" height="30px" borderRadius="5px" />
+                  </div>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     );
   }
@@ -89,7 +151,9 @@ const ItemDetails = () => {
                   </div>
                   <div className="col-md-6">
                     <div className="item_info">
-                      <h2>{item.title} #{item.tag}</h2>
+                      <h2>
+                        {item.title} #{item.tag}
+                      </h2>
                       <div className="item_info_counts">
                         <div className="item_info_views">
                           <i className="fa fa-eye"></i>
@@ -100,7 +164,6 @@ const ItemDetails = () => {
                           {item.likes}
                         </div>
                       </div>
-                      {/* TODO: Consider using a fallback description if item.description is empty */}
                       <p>{item.description || "No description available"}</p>
                       <div className="d-flex flex-row">
                         <div className="mr40">
@@ -147,8 +210,6 @@ const ItemDetails = () => {
                           </div>
                         </div>
                         <div className="spacer-40"></div>
-                        {/* TODO: Add Creator section to display the NFT creator information, 
-                        which is different from the owner and important for NFT provenance */}
                         <h6>Price</h6>
                         <div className="nft-item-price">
                           <img src={EthImage} alt="Ethereum" />
