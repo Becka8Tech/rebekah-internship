@@ -42,55 +42,59 @@ const TopSellers = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          <div
-            className="col-md-12 wow fadeIn"
-            style={{ visibility: "visible" }}
-          >
+          <div className="col-md-12" style={{ visibility: "visible" }}>
             <ol className="author_list">
               {loading ? (
-                <div>
-
-                 {new Array(12).fill(0).map((_, index) => (
-                   <div key={index}>
+                <ol className="flex">
+                  {new Array(12).fill(0).map((_, index) => (
+                    <li style={{flexDirection: "column"}} key={index}>
                       <div className="author_list_pp">
                         <Skeleton
                           width="50px"
                           height="50px"
                           borderRadius="100%"
-                          />
+                        />
                         <i className="fa fa-check"></i>
-                          </div>
-                        <div style={{ marginTop: "10px" }}>
-                          <Skeleton
-                            width="40%"
-                            height="18px"
-                            borderRadius="5px"
-                            />
-                        </div>
-                    </div>
-                  ))}
-                  </div>
-               ) : data.map((item) => (
-                    <div key={item.authorId}>
-                      <span>{item.id}.</span>
-                      <div className="author_list_pp">
-                        <Link to={`/author/${item.authorId}`}>
-                          <img
-                            className="lazy pp-author"
-                            src={item.authorImage}
-                            alt=""
-                          />
-                          <i className="fa fa-check"></i>
-                        </Link>
                       </div>
                       <div className="author_list_info">
-                        <Link to={`/author/${item.authorId}`}>
-                          {item.authorName}
-                        </Link>
-                        <span>{item.price} ETH</span>
+                        <Skeleton
+                          width="80px"
+                          height="18px"
+                          borderRadius="5px"
+                          />
+                          <span>
+                        <Skeleton
+                          width="40px"
+                          height="18px"
+                          borderRadius="5px"
+                          />
+                          </span>
                       </div>
-                    </div>
+                    </li>
                   ))}
+                </ol>
+              ) : (
+                data.map((item) => (
+                  <li key={item.authorId}>
+                    <div className="author_list_pp">
+                      <Link to={`/author/${item.authorId}`}>
+                        <img
+                          className="lazy pp-author"
+                          src={item.authorImage}
+                          alt=""
+                        />
+                        <i className="fa fa-check"></i>
+                      </Link>
+                    </div>
+                    <div className="author_list_info">
+                      <Link to={`/author/${item.authorId}`}>
+                        {item.authorName}
+                      </Link>
+                      <span>{item.price} ETH</span>
+                    </div>
+                  </li>
+                ))
+              )}
             </ol>
           </div>
         </div>
