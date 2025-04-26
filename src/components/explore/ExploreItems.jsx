@@ -91,7 +91,7 @@ const ExploreItems = () => {
           data[index]?.expiryDate ? Math.max(timeLeft - 1000, 0) : null
         )
       );
-    }, 1000);
+    }, 300);
     return () => clearInterval(interval);
   }, [data]);
 
@@ -131,37 +131,37 @@ const ExploreItems = () => {
                     <div className="nft__item">
                       <div className="author_list_pp">
                         <Skeleton
-                          width="100%"
-                          height="260px"
-                          borderRadius="10px"
-                        />
-                      </div>
-                      <div
-                        className="nft_coll_pp"
-                        style={{ marginTop: "10px" }}
-                      >
-                        <Skeleton
                           width="50px"
                           height="50px"
                           borderRadius="50%"
                         />
+                        <i className="fa fa-check"></i>
                       </div>
                       <div
-                        className="nft_coll_info"
-                        style={{ marginTop: "10px", textAlign: "center" }}
+                        className="nft__item_wrap"
+                      >
+                        <Skeleton
+                          width="200px"
+                          height="150px"
+                          borderRadius="5px"
+                        />
+                      </div>
+                      <div
+                        className="nft__item_info"
+                        style={{ textAlign: "left" }}
                       >
                         <Skeleton
                           width="70%"
-                          height="24px"
-                          borderRadius="5px"
-                          style={{ margin: "0 auto 8px auto" }}
+                          height="20px"
+                          borderRadius="0px"
                         />
+                        <div className="nft__item_price">
                         <Skeleton
                           width="40%"
                           height="18px"
                           borderRadius="5px"
-                          style={{ margin: "0 auto" }}
                         />
+                      </div>
                       </div>
                     </div>
                   </div>
@@ -192,23 +192,6 @@ const ExploreItems = () => {
                         </div>
                       )}
                       <div className="nft__item_wrap">
-                        <div className="nft__item_extra">
-                          <div className="nft__item_buttons">
-                            <button>Buy Now</button>
-                            <div className="nft__item_share">
-                              <h4>Share</h4>
-                              <a href="" target="_blank" rel="noreferrer">
-                                <i className="fa fa-facebook fa-lg"></i>
-                              </a>
-                              <a href="" target="_blank" rel="noreferrer">
-                                <i className="fa fa-twitter fa-lg"></i>
-                              </a>
-                              <a href="">
-                                <i className="fa fa-envelope fa-lg"></i>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
                         <Link to={`/item-details/${item.nftId}`}>
                           <img
                             src={item.nftImage}
