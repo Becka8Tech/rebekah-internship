@@ -244,7 +244,7 @@ const NewItems = () => {
                             to={`/author/${item.authorId}`}
                             data-bs-toggle="tooltip"
                             data-bs-placement="top"
-                            title={`Creator: ${item.authorName}`}
+                            title={`Creator: Monica Lucas`}
                           >
                             <img
                               className="lazy"
