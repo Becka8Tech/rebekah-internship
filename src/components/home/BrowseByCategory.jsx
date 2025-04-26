@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const BrowseByCategory = () => {
+useEffect(() => {
+    AOS.init();
+  }, []);
+
   return (
     <section id="section-category" className="no-top">
       <div className="container">
@@ -12,12 +18,15 @@ const BrowseByCategory = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
+        
+      <div data-aos="fade-in" data-aos-duration="1000">
           <div className="col-md-2 col-sm-4 col-6 mb-sm-30">
             <Link to="/explore" className="icon-box style-2 rounded">
               <i className="fa fa-image"></i>
               <span>Art</span>
             </Link>
           </div>
+      </div>
           <div className="col-md-2 col-sm-4 col-6 mb-sm-30">
             <Link to="/explore" className="icon-box style-2 rounded">
               <i className="fa fa-music"></i>
